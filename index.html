@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPINWORLD 777</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500;600;700&family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --deep-navy: #0B1020;
+        --dark-purple: #1A1F3A;
+        --neon-red: #FF2E63;
+        --gold: #FFD700;
+        --cyan: #00F0FF;
+        
+        /* Dynamic Country/VIP Theme Variables */
+        --vip-main: #FF2E63;
+        --vip-glow: rgba(255, 46, 99, 0.4);
+      }
+      body {
+        background-color: var(--deep-navy);
+        color: #EAEAEA;
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        overflow-x: hidden;
+        transition: box-shadow 0.3s ease;
+      }
+      .font-orbitron { font-family: 'Orbitron', sans-serif; }
+      .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+      
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--deep-navy); }
+      ::-webkit-scrollbar-thumb { background: var(--dark-purple); border-radius: 10px; }
+      ::-webkit-scrollbar-thumb:hover { background: var(--vip-main); }
+
+      /* Neon Glows */
+      .glow-vip { box-shadow: 0 0 20px var(--vip-glow); }
+      .glow-gold { box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+      .glow-cyan { box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+      
+      /* Background Canvas */
+      #bgFX {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      /* Jackpot Overlay */
+      #jackpot-root {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle, rgba(255,215,0,0.9), rgba(255,46,99,0.7), black);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+      #jackpot-root.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .jackpot-text {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10vw;
+        color: white;
+        text-shadow: 0 0 20px gold, 0 0 40px red;
+        animation: jackpotPop 0.6s ease infinite alternate;
+      }
+      .jackpot-amount {
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 5vw;
+        color: #FFD700;
+        font-weight: 800;
+        margin-top: -10px;
+      }
+      @keyframes jackpotPop {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+      }
+
+      /* Ticker Animation */
+      @keyframes tickerMove {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      /* Responsive Immersive Mode */
+      @media (max-width: 768px) {
+        .mobile-immersive header { display: none !important; }
+        .mobile-immersive footer { display: none !important; }
+        .mobile-immersive #winnerTicker { display: none !important; }
+        .mobile-immersive main { padding-top: 1rem !important; }
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+</head>
+<body>
+    <canvas id="bgFX"></canvas>
+    <div id="root"></div>
+    <div id="jackpot-root">
+      <div class="jackpot-text">JACKPOT!</div>
+      <div id="jackpot-overlay-amount" class="jackpot-amount">0</div>
+    </div>
+</body>
+</html>
