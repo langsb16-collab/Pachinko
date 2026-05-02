@@ -10,6 +10,7 @@ import { i18n } from './i18n';
 const App: React.FC = () => {
   const [view, setView] = useState<View>('LOBBY');
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
+  const [theme, setTheme] = useState<'night' | 'day'>('night');
   const [profile, setProfile] = useState<UserProfile>(() => {
     const saved = localStorage.getItem('spinworld_profile');
     if (saved) {
@@ -190,15 +191,22 @@ const App: React.FC = () => {
     setSelectedMachine(null);
   };
 
+  const handleThemeToggle = () => {
+    setTheme(prev => prev === 'night' ? 'day' : 'night');
+  };
+
   const t = i18n[profile.lang];
 
   return (
-    <div className="min-h-screen bg-[#0B1020] text-[#EAEAEA] transition-colors duration-500">
-      <Header profile={profile} onGoHome={handleGoHome} onLangChange={handleLangChange} />
+    <div className="min-h-screen transition-colors duration-500" style={{
+      backgroundColor: theme === 'night' ? '#0B1020' : '#F5F5F5',
+      color: theme === 'night' ? '#EAEAEA' : '#1A1F3A'
+    }}>
+      <Header profile={profile} onGoHome={handleGoHome} onLangChange={handleLangChange} theme={theme} onThemeToggle={handleThemeToggle} />
       
       <main className="transition-all duration-300 relative z-10">
         {view === 'LOBBY' ? (
-          <Lobby profile={profile} onSelectMachine={handleSelectMachine} />
+          <Lobby profile={profile} onSelectMachine={handleSelectMachine} theme={theme} />
         ) : (
           selectedMachine && (
             <SlotGame 

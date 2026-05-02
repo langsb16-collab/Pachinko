@@ -8,14 +8,14 @@ import MachineCard from './MachineCard';
 interface LobbyProps {
   profile: UserProfile;
   onSelectMachine: (machine: Machine) => void;
+  theme: 'night' | 'day';
 }
 
-const Lobby: React.FC<LobbyProps> = ({ profile, onSelectMachine }) => {
+const Lobby: React.FC<LobbyProps> = ({ profile, onSelectMachine, theme }) => {
   const t = i18n[profile.lang];
   const [activeTab, setActiveTab] = useState(t.lobby);
   const tabs = [t.lobby, t.online, t.bonus];
   const [tickerIndex, setTickerIndex] = useState(0);
-  const [theme, setTheme] = useState<'night' | 'day'>('night');
   
   const news = [
     t.guest_mode,
@@ -30,25 +30,6 @@ const Lobby: React.FC<LobbyProps> = ({ profile, onSelectMachine }) => {
     }, 4000);
     return () => clearInterval(timer);
   }, [news.length]);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'day') {
-      root.style.setProperty('--bg-primary', '#F5F5F5');
-      root.style.setProperty('--bg-secondary', '#FFFFFF');
-      root.style.setProperty('--text-primary', '#1A1F3A');
-      root.style.setProperty('--text-secondary', '#4A5568');
-      root.style.setProperty('--border-color', 'rgba(0, 0, 0, 0.1)');
-      document.body.style.backgroundColor = '#F5F5F5';
-    } else {
-      root.style.setProperty('--bg-primary', '#0B1020');
-      root.style.setProperty('--bg-secondary', '#1A1F3A');
-      root.style.setProperty('--text-primary', '#EAEAEA');
-      root.style.setProperty('--text-secondary', '#9CA3AF');
-      root.style.setProperty('--border-color', 'rgba(255, 255, 255, 0.1)');
-      document.body.style.backgroundColor = '#0B1020';
-    }
-  }, [theme]);
 
   return (
     <div className="pt-16 pb-24 px-4 max-w-[1400px] mx-auto min-h-screen">

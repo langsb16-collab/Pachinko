@@ -31,6 +31,17 @@ const MachineCard: React.FC<MachineCardProps> = ({ machine, onSelect }) => {
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
       }}
     >
+      {/* Aurora Border Flow */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+        <div 
+          className="absolute inset-[-2px] rounded-xl"
+          style={{
+            background: 'conic-gradient(from 0deg, #FFD700, #FF2E63, #00F0FF, #FFD700)',
+            animation: 'rotateBorder 3s linear infinite'
+          }}
+        />
+      </div>
+
       {/* Hover Gold Diagonal Shine */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none overflow-hidden">
         <div className="absolute -inset-full group-hover:inset-full bg-gradient-to-br from-transparent via-[#FFD700]/30 to-transparent transition-all duration-1000 transform rotate-45" 
@@ -120,6 +131,10 @@ const MachineCard: React.FC<MachineCardProps> = ({ machine, onSelect }) => {
         @keyframes shine {
           0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
           50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        @keyframes rotateBorder {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
       `}</style>
     </div>
