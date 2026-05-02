@@ -45,9 +45,10 @@
       #bgFX {
         position: fixed;
         inset: 0;
-        z-index: 0;
+        z-index: -1;
         pointer-events: none;
-        opacity: 0.6;
+        opacity: 0.3;
+        display: none;
       }
 
       /* Jackpot Overlay */
@@ -118,5 +119,6 @@
       <div class="jackpot-text">JACKPOT!</div>
       <div id="jackpot-overlay-amount" class="jackpot-amount">0</div>
     </div>
+    <script type="module" src="/index.tsx"></script>
 </body>
 </html>

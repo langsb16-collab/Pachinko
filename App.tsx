@@ -36,10 +36,15 @@ const App: React.FC = () => {
 
   // Background Particles Logic
   useEffect(() => {
+    if (window.innerWidth < 768) return; // 모바일에서 배경 끄기
+    
     const canvas = document.getElementById('bgFX') as HTMLCanvasElement;
     if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    
+    canvas.style.display = 'block';
 
     let particles: any[] = [];
     let animationId: number;
