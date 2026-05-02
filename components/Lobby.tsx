@@ -15,6 +15,7 @@ const Lobby: React.FC<LobbyProps> = ({ profile, onSelectMachine }) => {
   const [activeTab, setActiveTab] = useState(t.lobby);
   const tabs = [t.lobby, t.online, t.bonus];
   const [tickerIndex, setTickerIndex] = useState(0);
+  const [theme, setTheme] = useState<'night' | 'day'>('night');
   
   const news = [
     t.guest_mode,
@@ -30,6 +31,25 @@ const Lobby: React.FC<LobbyProps> = ({ profile, onSelectMachine }) => {
     return () => clearInterval(timer);
   }, [news.length]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'day') {
+      root.style.setProperty('--bg-primary', '#F5F5F5');
+      root.style.setProperty('--bg-secondary', '#FFFFFF');
+      root.style.setProperty('--text-primary', '#1A1F3A');
+      root.style.setProperty('--text-secondary', '#4A5568');
+      root.style.setProperty('--border-color', 'rgba(0, 0, 0, 0.1)');
+      document.body.style.backgroundColor = '#F5F5F5';
+    } else {
+      root.style.setProperty('--bg-primary', '#0B1020');
+      root.style.setProperty('--bg-secondary', '#1A1F3A');
+      root.style.setProperty('--text-primary', '#EAEAEA');
+      root.style.setProperty('--text-secondary', '#9CA3AF');
+      root.style.setProperty('--border-color', 'rgba(255, 255, 255, 0.1)');
+      document.body.style.backgroundColor = '#0B1020';
+    }
+  }, [theme]);
+
   return (
     <div className="pt-16 pb-24 px-4 max-w-[1400px] mx-auto min-h-screen">
       {/* News Ticker */}
@@ -44,12 +64,56 @@ const Lobby: React.FC<LobbyProps> = ({ profile, onSelectMachine }) => {
             {news[tickerIndex]}
           </div>
         </div>
+        
+        {/* Theme Toggle */}
+        <button
+          onClick={() => setTheme(prev => prev === 'night' ? 'day' : 'night')}
+          className="relative mr-4 w-14 h-7 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-0.5 overflow-hidden group"
+          style={{
+            boxShadow: theme === 'night' 
+              ? '0 0 20px rgba(139, 92, 246, 0.6), inset 0 0 10px rgba(139, 92, 246, 0.3)'
+              : '0 0 20px rgba(251, 191, 36, 0.6), inset 0 0 10px rgba(251, 191, 36, 0.3)'
+          }}
+        >
+          {/* Rotating Border Animation */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div 
+              className="absolute inset-[-2px] rounded-full"
+              style={{
+                background: 'conic-gradient(from 0deg, #FFD700, #FF2E63, #00F0FF, #FFD700)',
+                animation: 'rotateBorder 3s linear infinite'
+              }}
+            />
+          </div>
+          
+          {/* Inner Button */}
+          <div className="relative w-full h-full bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-between px-1">
+            <div 
+              className="absolute w-5 h-5 rounded-full transition-all duration-300 shadow-lg"
+              style={{
+                left: theme === 'night' ? '2px' : 'calc(100% - 22px)',
+                background: theme === 'night' 
+                  ? 'linear-gradient(135deg, #8B5CF6, #EC4899)'
+                  : 'linear-gradient(135deg, #FBBF24, #F59E0B)',
+                boxShadow: theme === 'night'
+                  ? '0 0 15px rgba(139, 92, 246, 0.8)'
+                  : '0 0 15px rgba(251, 191, 36, 0.8)'
+              }}
+            />
+            <span className="text-[10px] ml-1 z-10">{theme === 'night' ? '🌙' : '☀️'}</span>
+            <span className="text-[10px] mr-1 z-10">{theme === 'day' ? '☀️' : '🌙'}</span>
+          </div>
+        </button>
       </div>
 
       <style>{`
         @keyframes slideUpNews {
           from { transform: translateY(20px); opacity: 0; }
           to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes rotateBorder {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
       `}</style>
 
